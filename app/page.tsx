@@ -69,7 +69,7 @@ export default function Home() {
                   : "self-start bg-gray-200 text-gray-900"
               }`}
             >
-              {message.role === "user" ? "You: " : "Assistant: "}
+              {/* {message.role === "user" ? "You: " : "Assistant: "} */}
               {message.parts.map((part, i) => {
                 switch (part.type) {
                   case "text":
