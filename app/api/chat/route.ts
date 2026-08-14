@@ -1,5 +1,11 @@
 import { google } from "@ai-sdk/google";
-import { createUIMessageStreamResponse, streamText, convertToModelMessages, toUIMessageStream, UIMessage } from "ai";
+import {
+  createUIMessageStreamResponse,
+  streamText,
+  convertToModelMessages,
+  toUIMessageStream,
+  UIMessage,
+} from "ai";
 
 export async function POST(request: Request) {
   const { messages }: { messages: UIMessage[] } = await request.json();
