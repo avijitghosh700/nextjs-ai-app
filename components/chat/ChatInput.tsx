@@ -33,7 +33,7 @@ export const ChatInput = ({ input, setInput, hasMessages, onSubmit }: ChatInputP
             type="submit"
             aria-label="Send message"
             className="absolute right-1 w-14 h-10 flex items-center justify-center gap-2
-          bg-white text-black rounded-full cursor-pointer hover:bg-gray-200 transition-colors"
+            bg-white text-black rounded-full cursor-pointer hover:bg-gray-200 transition-colors"
           >
             <Send size={20} />
           </button>
