@@ -12,8 +12,8 @@ interface ChatInputProps {
 export const ChatInput = ({ input, setInput, hasMessages, onSubmit }: ChatInputProps) => {
   return (
     <div
-      className={`chat__inputContainer max-w-184 mx-auto px-4 md:px-0
-      flex flex-col justify-center gap-4 fixed ${hasMessages ? "bottom-4" : "top-0 bottom-0"} left-0 right-0`}
+      className={`chat__inputContainer fixed inset-x-0 mx-auto max-w-3xl px-4 md:px-0
+      flex flex-col justify-center gap-4 ${hasMessages ? "bottom-4" : "top-0 bottom-0"}`}
     >
       {!hasMessages && (
         <h1 className="text-center text-2xl text-gray-400">Hello! How can I assist you today?</h1>

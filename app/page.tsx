@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatInput } from "@/components/chat/ChatInput";
@@ -9,6 +9,7 @@ import { ChatLoadingIndicator } from "@/components/chat/ChatLoadingIndicator";
 export default function Chat() {
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,6 +20,10 @@ export default function Chat() {
 
     await sendMessage({ text: input });
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <main
@@ -35,6 +40,8 @@ export default function Chat() {
           ))}
 
           {status === "submitted" && <ChatLoadingIndicator />}
+
+          <div ref={messagesEndRef} aria-hidden="true" />
         </div>
 
         <ChatInput
