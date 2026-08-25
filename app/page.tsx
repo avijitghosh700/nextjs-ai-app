@@ -5,10 +5,11 @@ import { useChat } from "@ai-sdk/react";
 import { ChatMessage } from "@/components/chat/ChatMessage";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { ChatLoadingIndicator } from "@/components/chat/ChatLoadingIndicator";
+import { ChatErrorAlert } from "@/components/chat/ChatErrorAlert";
 
 export default function Chat() {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status, stop } = useChat();
+  const { messages, sendMessage, status, stop, error, clearError } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const isGenerating = status === "submitted" || status === "streaming";
 
@@ -17,9 +18,14 @@ export default function Chat() {
 
     if (!input.trim()) return;
 
+    clearError();
     setInput("");
 
-    await sendMessage({ text: input });
+    try {
+      await sendMessage({ text: input });
+    } catch {
+      // The hook exposes request and streaming failures through `error` below.
+    }
   };
 
   const handleStop = () => {
@@ -45,6 +51,8 @@ export default function Chat() {
           ))}
 
           {isGenerating && <ChatLoadingIndicator />}
+
+          {error && <ChatErrorAlert onDismiss={clearError} />}
 
           <div ref={messagesEndRef} aria-hidden="true" />
         </div>
