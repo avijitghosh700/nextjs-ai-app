@@ -8,8 +8,9 @@ import { ChatLoadingIndicator } from "@/components/chat/ChatLoadingIndicator";
 
 export default function Chat() {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status } = useChat();
+  const { messages, sendMessage, status, stop } = useChat();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isGenerating = status === "submitted" || status === "streaming";
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -19,6 +20,10 @@ export default function Chat() {
     setInput("");
 
     await sendMessage({ text: input });
+  };
+
+  const handleStop = () => {
+    stop();
   };
 
   useEffect(() => {
@@ -39,7 +44,7 @@ export default function Chat() {
             <ChatMessage key={message.id} message={message} />
           ))}
 
-          {status === "submitted" && <ChatLoadingIndicator />}
+          {isGenerating && <ChatLoadingIndicator />}
 
           <div ref={messagesEndRef} aria-hidden="true" />
         </div>
@@ -47,8 +52,10 @@ export default function Chat() {
         <ChatInput
           input={input}
           setInput={setInput}
+          isGenerating={isGenerating}
           hasMessages={!!messages.length}
           onSubmit={handleSubmit}
+          onStop={handleStop}
         />
       </div>
     </main>

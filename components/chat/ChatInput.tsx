@@ -1,15 +1,24 @@
 "use client";
 
-import { Send } from "lucide-react";
+import { Send, Square } from "lucide-react";
 
 interface ChatInputProps {
   input: string;
   setInput: (value: string) => void;
   hasMessages: boolean;
+  isGenerating: boolean;
   onSubmit: (e: React.SubmitEvent<HTMLFormElement>) => void;
+  onStop: () => void;
 }
 
-export const ChatInput = ({ input, setInput, hasMessages, onSubmit }: ChatInputProps) => {
+export const ChatInput = ({
+  input,
+  setInput,
+  hasMessages,
+  isGenerating,
+  onSubmit,
+  onStop,
+}: ChatInputProps) => {
   return (
     <div
       className={`chat__inputContainer fixed inset-x-0 mx-auto max-w-3xl px-4 md:px-0
@@ -29,14 +38,26 @@ export const ChatInput = ({ input, setInput, hasMessages, onSubmit }: ChatInputP
             value={input}
             onChange={(e) => setInput(e.target.value)}
           />
-          <button
-            type="submit"
-            aria-label="Send message"
-            className="absolute right-1 w-14 h-10 flex items-center justify-center gap-2
+          {!isGenerating ? (
+            <button
+              type="submit"
+              aria-label="Send message"
+              className="absolute right-1 w-14 h-10 flex items-center justify-center gap-2
             bg-white text-black rounded-full cursor-pointer hover:bg-gray-200 transition-colors"
-          >
-            <Send size={20} />
-          </button>
+            >
+              <Send size={20} />
+            </button>
+          ) : (
+            <button
+              type="button"
+              aria-label="Stop generating"
+              className="absolute right-1 w-14 h-10 flex items-center justify-center gap-2
+            bg-white text-black rounded-full cursor-pointer hover:bg-gray-200 transition-colors"
+              onClick={onStop}
+            >
+              <Square size={20} />
+            </button>
+          )}
         </form>
       </div>
     </div>
